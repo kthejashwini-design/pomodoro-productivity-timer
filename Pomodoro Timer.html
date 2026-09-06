@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pomodoro Timer</title>
+
+    <!-- Bootstrap -->
+     <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+     </script>
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            font-family: Arial, sans-serif;
+            color: white;
+
+            /* Background image */
+            background-image:
+                linear-gradient(
+                    rgba(5, 5, 15, 0.35),
+                    rgba(5, 5, 15, 0.45)
+                ),
+                url("https://i.pinimg.com/1200x/e2/dd/8e/e2dd8ed71e73bdd21dd2b6691ee6468e.jpg");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+
+        /* =========================
+           MAIN PAGE
+        ========================= */
+
+        .page {
+            min-height: 100vh;
+            padding: 20px 40px;
+            position: relative;
+        }
+
+
+        /* =========================
+           TOP BAR
+        ========================= */
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+
+        .brand-section {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+
+        .brand {
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+
+        /* =========================
+           STREAK
+        ========================= */
+
+        .streak {
+
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            padding: 10px 20px;
+
+            border: 1px solid rgba(255,255,255,0.25);
+
+            background: rgba(255,255,255,0.08);
+
+            backdrop-filter: blur(15px);
+
+            border-radius: 20px;
+
+            font-size: 20px;
+        }
+
+
+        .fire {
+            font-size: 25px;
+        }
+
+
+        /* =========================
+           TOP ICONS
+        ========================= */
+
+        .top-icons {
+            display: flex;
+            gap: 12px;
+        }
+
+
+        .icon-btn {
+
+            width: 64px;
+            height: 64px;
+
+            border-radius: 20px;
+
+            border: 1px solid rgba(255,255,255,0.25);
+
+            background: rgba(255,255,255,0.08);
+
+            backdrop-filter: blur(15px);
+
+            color: white;
+
+            font-size: 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .icon-btn:hover {
+            background: rgba(255,255,255,0.18);
+            transform: translateY(-2px);
+        }
+
+
+        /* Language button */
+
+        .language-btn {
+
+            width: auto;
+
+            padding: 0 18px;
+
+            gap: 10px;
+
+            font-size: 18px;
+        }
+
+
+        /* =========================
+           CENTER TIMER AREA
+        ========================= */
+
+        .timer-area {
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            margin-top: 30px;
+        }
+
+
+        /* =========================
+           TABS
+        ========================= */
+
+        .tabs {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding: 8px;
+
+            border-radius: 25px;
+
+            background: rgba(255,255,255,0.10);
+
+            border: 1px solid rgba(255,255,255,0.25);
+
+            backdrop-filter: blur(15px);
+        }
+
+
+        .tab {
+
+            border: none;
+
+            color: rgba(255,255,255,0.75);
+
+            background: transparent;
+
+            padding: 12px 30px;
+
+            border-radius: 18px;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .tab:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+
+        .tab.active {
+
+            background: rgba(157, 124, 220, 0.65);
+
+            color: white;
+        }
+
+
+        .count {
+
+            display: inline-flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            width: 30px;
+
+            height: 30px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.15);
+
+            margin-left: 8px;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           CIRCULAR TIMER
+        ========================= */
+
+        .timer-circle {
+
+            width: 435px;
+
+            height: 435px;
+
+            margin-top: 55px;
+
+            border-radius: 50%;
+
+            border: 10px solid #b99cff;
+
+            box-shadow:
+
+                0 0 15px #b99cff,
+
+                0 0 35px rgba(185,156,255,0.5),
+
+                inset 0 0 30px rgba(185,156,255,0.15);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+
+        .timer-content {
+            text-align: center;
+        }
+
+
+        #timer {
+
+            font-size: 75px;
+
+            font-weight: bold;
+
+            letter-spacing: 2px;
+        }
+
+
+        /* Session label */
+
+        .session-label {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            margin-top: 15px;
+
+            padding: 10px 20px;
+
+            border-radius: 25px;
+
+            border: 1px solid rgba(255,255,255,0.2);
+
+            background: rgba(255,255,255,0.08);
+
+            font-size: 17px;
+        }
+
+
+        .session-dot {
+
+            width: 10px;
+
+            height: 10px;
+
+            background: #a980ff;
+
+            border-radius: 50%;
+        }
+
+
+        /* =========================
+           BUTTON AREA
+        ========================= */
+
+        .controls {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 25px;
+
+            margin-top: 35px;
+        }
+
+
+        .start-btn {
+
+            min-width: 300px;
+
+            padding: 18px 40px;
+
+            border-radius: 40px;
+
+            border: 1px solid rgba(255,255,255,0.4);
+
+            background: #8d6bd1;
+
+            color: white;
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+            letter-spacing: 2px;
+
+            box-shadow: 0 0 25px rgba(141,107,209,0.5);
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .start-btn:hover {
+
+            background: #a17ce5;
+
+            transform: translateY(-2px);
+        }
+
+
+        .reset-btn {
+
+            width: 70px;
+
+            height: 70px;
+
+            border-radius: 50%;
+
+            border: 1px solid rgba(255,255,255,0.3);
+
+            background: rgba(255,255,255,0.08);
+
+            color: white;
+
+            font-size: 25px;
+
+            cursor: pointer;
+        }
+
+
+        /* =========================
+           TODO PANEL
+        ========================= */
+
+        .todo-panel {
+
+            position: fixed;
+
+            right: 40px;
+
+            top: 100px;
+
+            width: 320px;
+
+            padding: 20px;
+
+            background: rgba(20,20,30,0.92);
+
+            backdrop-filter: blur(20px);
+
+            border-radius: 20px;
+
+            border: 1px solid #09070c;
+
+            display: none;
+
+            z-index: 10;
+        }
+
+
+        .todo-panel.show {
+            display: block;
+        }
+
+
+        .todo-input {
+
+            display: flex;
+
+            gap: 8px;
+        }
+
+
+        .todo-input input {
+
+            flex: 1;
+
+            border-radius: 10px;
+
+            border: none;
+
+            padding: 10px;
+        }
+
+
+        .task {
+
+            margin-top: 10px;
+
+            padding: 10px;
+
+            border-radius: 10px;
+
+            background:#09070c;
+
+            display: flex;
+
+            justify-content: space-between;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 768px) {
+
+            .page {
+                padding: 15px;
+            }
+
+
+            .brand {
+                font-size: 22px;
+            }
+
+
+            .streak {
+                padding: 8px 12px;
+            }
+
+
+            .top-icons {
+                gap: 5px;
+            }
+
+
+            .icon-btn {
+
+                width: 45px;
+
+                height: 45px;
+
+                font-size: 18px;
+            }
+
+
+            .timer-circle {
+
+                width: 300px;
+
+                height: 300px;
+            }
+
+
+            #timer {
+                font-size: 55px;
+            }
+
+
+            .tab {
+
+                padding: 10px 12px;
+
+                font-size: 14px;
+            }
+
+
+            .count {
+
+                width: 22px;
+
+                height: 22px;
+            }
+
+
+            .start-btn {
+
+                min-width: 220px;
+
+                font-size: 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+    <!-- =========================
+         TOP BAR
+    ========================== -->
+
+    <div class="top-bar">
+
+
+        <!-- LEFT -->
+
+        <div class="brand-section">
+
+            <div class="brand">
+                Pomodoro Timer
+            </div>
+
+
+            <div
+                class="streak"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="Your current study streak">
+
+                <span class="fire">
+                    🔥
+                </span>
+
+                <span id="streak">
+                0
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT -->
+
+        <div class="top-icons">
+
+
+            <!-- MUSIC -->
+
+            <button
+                class="icon-btn"
+                type="button"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="Music">
+
+                <i class="bi bi-music-note-beamed"></i>
+
+            </button>
+
+
+            <!-- TODO -->
+
+           <button
+                class="icon-btn"
+                type="button"
+                onclick="toggleTodo()"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="To-do List">
+
+                <i class="bi bi-list-check"></i>
+
+            </button>
+
+            <!-- LANGUAGE -->
+
+            <button
+                class="icon-btn language-btn"
+                type="button"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="Language">
+
+                <i class="bi bi-globe"></i>
+
+                <b>EN</b>
+
+            </button>
+
+
+            <!-- SETTINGS -->
+
+            <button
+                class="icon-btn"
+                type="button"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="Settings">
+
+                <i class="bi bi-gear"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         TIMER
+    ========================== -->
+
+    <div class="timer-area">
+
+
+        <!-- TABS -->
+
+        <div class="tabs">
+
+
+            <button
+                class="tab active"
+                onclick="changeMode('focus', this)">
+
+                Focus
+
+                <span class="count">
+                    0
+                </span>
+
+            </button>
+
+
+            <button
+                class="tab"
+                onclick="changeMode('short', this)">
+
+                Short Break
+
+                <span class="count">
+                    0
+                </span>
+
+            </button>
+
+
+            <button
+                class="tab"
+                onclick="changeMode('long', this)">
+
+                Long Break
+
+                <span class="count">
+                    0
+                </span>
+
+            </button>
+
+
+        </div>
+
+
+
+        <!-- CIRCLE -->
+
+        <div class="timer-circle">
+
+
+            <div class="timer-content">
+
+
+                <div id="timer">
+                    25:00
+                </div>
+
+
+                <div class="session-label">
+
+                    <span class="session-dot"></span>
+
+                    <span id="sessionText">
+                        Focus session
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- START + RESET -->
+
+        <div class="controls">
+
+
+            <button
+                id="startBtn"
+                class="start-btn"
+                onclick="startTimer()">
+
+                ▶ &nbsp; START
+
+            </button>
+
+
+            <button
+                class="reset-btn"
+                onclick="resetTimer()">
+
+                <i class="bi bi-arrow-counterclockwise"></i>
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     TODO POPUP
+========================= -->
+
+<div
+    id="todoPanel"
+    class="todo-panel">
+
+
+    <h5>
+        ✅ To-Do List
+    </h5>
+
+
+    <div class="todo-input">
+
+
+        <input
+            type="text"
+            id="taskInput"
+            placeholder="Enter your task">
+
+
+        <button
+            class="btn btn-light"
+            onclick="addTask()">
+
+            +
+
+        </button>
+
+
+    </div>
+
+
+    <div id="taskList"></div>
+
+
+</div>
+
+
+
+<script>
+
+
+    /* =========================
+       TIMER
+    ========================== */
+
+    let timer;
+
+    let running = false;
+
+    let currentMode = "focus";
+
+    let timeLeft = 25 * 60;
+
+
+    function updateDisplay() {
+
+        let minutes =
+            Math.floor(timeLeft / 60);
+
+        let seconds =
+            timeLeft % 60;
+
+
+        seconds =
+            seconds < 10
+                ? "0" + seconds
+                : seconds;
+
+
+        document.getElementById("timer")
+            .innerText =
+            minutes + ":" + seconds;
+
+    }
+
+
+
+    /* =========================
+       START / PAUSE
+    ========================== */
+
+    function startTimer() {
+
+
+        if (running) {
+
+            clearInterval(timer);
+
+            running = false;
+
+            document.getElementById("startBtn")
+                .innerHTML =
+                "▶ &nbsp; START";
+
+            return;
+
+        }
+
+
+        running = true;
+
+
+        document.getElementById("startBtn")
+            .innerHTML =
+            "Ⅱ &nbsp; PAUSE";
+
+
+        timer = setInterval(function() {
+
+
+            if (timeLeft > 0) {
+
+                timeLeft--;
+
+                updateDisplay();
+
+            }
+
+            else {
+
+                clearInterval(timer);
+
+                running = false;
+
+                document.getElementById("startBtn")
+                    .innerHTML =
+                    "▶ &nbsp; START";
+
+                alert("Time is up! 🎉");
+
+            }
+
+
+        }, 1000);
+
+    }
+
+
+
+    /* =========================
+       CHANGE MODE
+    ========================== */
+
+    function changeMode(mode, button) {
+
+
+        clearInterval(timer);
+
+        running = false;
+
+
+        document.getElementById("startBtn")
+            .innerHTML =
+            "▶ &nbsp; START";
+
+
+        document
+            .querySelectorAll(".tab")
+            .forEach(function(tab) {
+
+                tab.classList.remove("active");
+
+            });
+
+
+        button.classList.add("active");
+
+
+        currentMode = mode;
+
+
+        if (mode === "focus") {
+
+            timeLeft = 25 * 60;
+
+            document.getElementById("sessionText")
+                .innerText =
+                "Focus session";
+
+        }
+
+        else if (mode === "short") {
+
+            timeLeft = 5 * 60;
+
+            document.getElementById("sessionText")
+                .innerText =
+                "Short break";
+
+        }
+
+        else {
+
+            timeLeft = 15 * 60;
+
+            document.getElementById("sessionText")
+                .innerText =
+                "Long break";
+
+        }
+
+
+        updateDisplay();
+
+    }
+
+
+
+    /* =========================
+       RESET
+    ========================== */
+
+    function resetTimer() {
+
+        clearInterval(timer);
+
+        running = false;
+
+
+        document.getElementById("startBtn")
+            .innerHTML =
+            "▶ &nbsp; START";
+
+
+        if (currentMode === "focus") {
+
+            timeLeft = 25 * 60;
+
+        }
+
+        else if (currentMode === "short") {
+
+            timeLeft = 5 * 60;
+
+        }
+
+        else {
+
+            timeLeft = 15 * 60;
+
+        }
+
+
+        updateDisplay();
+
+    }
+
+
+
+    /* =========================
+       TODO
+    ========================== */
+
+    function toggleTodo() {
+
+        document
+            .getElementById("todoPanel")
+            .classList.toggle("show");
+
+    }
+
+
+    function addTask() {
+
+        let input =
+            document.getElementById("taskInput");
+
+
+        let task =
+            input.value.trim();
+
+
+        if (task === "") {
+            return;
+        }
+
+
+        let div =
+            document.createElement("div");
+
+
+        div.className = "task";
+
+
+        div.innerHTML = `
+
+            <span>
+                ${task}
+            </span>
+
+            <button
+                class="btn btn-sm btn-danger"
+                onclick="this.parentElement.remove()">
+
+                ×
+
+            </button>
+
+        `;
+
+
+        document
+            .getElementById("taskList")
+            .appendChild(div);
+
+
+        input.value = "";
+
+    }
+
+
+
+    /* Enter key */
+
+    document
+        .getElementById("taskInput")
+        .addEventListener(
+            "keypress",
+            function(event) {
+
+                if (event.key === "Enter") {
+
+                    addTask();
+
+                }
+
+            }
+        );
+
+
+
+    /* =========================
+       MUSIC
+    ========================== */
+
+    let music =
+        new Audio(
+            "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+        );
+
+
+    music.loop = true;
+
+
+    function toggleMusic() {
+
+        if (music.paused) {
+
+            music.play();
+
+        }
+
+        else {
+
+            music.pause();
+
+        }
+
+    }
+
+
+
+    /* INITIAL TIMER */
+
+    updateDisplay();
+
+</script>
+<script>
+    const tooltipTriggerList =
+        document.querySelectorAll('[data-bs-toggle="tooltip"]');
+
+    const tooltipList =
+        [...tooltipTriggerList].map(
+            tooltipTriggerEl =>
+                new bootstrap.Tooltip(tooltipTriggerEl)
+        );
+</script>
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+<script>
+
+    // Your timer JavaScript here
+
+</script>
+
+<script>
+
+    // Tooltip initialization
+
+    const tooltipTriggerList =
+        document.querySelectorAll('[data-bs-toggle="tooltip"]');
+
+    const tooltipList =
+        [...tooltipTriggerList].map(
+            tooltipTriggerEl =>
+                new bootstrap.Tooltip(tooltipTriggerEl)
+        );
+
+</script>
+
+
+</body>
+
+</html>
